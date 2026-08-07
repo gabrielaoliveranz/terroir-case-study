@@ -185,55 +185,56 @@
 
       <div class="subzones">
         <h3>Suitability by subzone</h3>
-        <p class="subzones__note">Illustrative distribution consistent with the scored dataset &mdash; exact per-subzone figures live in the dashboard.</p>
+        <!-- Real figures, not illustrative — Terroir subzone_summary.py / subzone_summary table (the 5 named Apophenia subzones: Katikati, Tauranga, Te Puke, Pongakawa, Ōpōtiki). Verified read-only against terroir.db. -->
+        <p class="subzones__note">The 5 named subzones this analysis shares with Apophenia&rsquo;s corridor comparison &mdash; not all 4 territorial authorities.</p>
         <ul class="subzone-chart">
-          <li class="subzone">
-            <div class="subzone__bars" style="height:88%;">
-              <div style="height:8%; background:var(--accent-muted);"></div>
-              <div style="height:14%; background:var(--accent-soft);"></div>
-              <div style="height:78%; background:var(--accent);"></div>
+          <li class="subzone" aria-label="Katikati: 91.5% Excellent, 7.7% Good, 0.7% Marginal">
+            <div class="subzone__bars" style="height:100%;">
+              <div style="height:0.7%; background:var(--accent-muted);"></div>
+              <div style="height:7.7%; background:var(--accent-soft);"></div>
+              <div style="height:91.5%; background:var(--accent);"></div>
             </div>
             <div class="subzone__label">Katikati</div>
           </li>
-          <li class="subzone">
-            <div class="subzone__bars" style="height:85%;">
-              <div style="height:9%; background:var(--accent-muted);"></div>
-              <div style="height:16%; background:var(--accent-soft);"></div>
-              <div style="height:75%; background:var(--accent);"></div>
+          <li class="subzone" aria-label="Te Puke: 90.8% Excellent, 6.6% Good, 2.6% Marginal">
+            <div class="subzone__bars" style="height:100%;">
+              <div style="height:2.6%; background:var(--accent-muted);"></div>
+              <div style="height:6.6%; background:var(--accent-soft);"></div>
+              <div style="height:90.8%; background:var(--accent);"></div>
+            </div>
+            <div class="subzone__label">Te Puke</div>
+          </li>
+          <li class="subzone" aria-label="Tauranga: 90.3% Excellent, 8.2% Good, 1.5% Marginal">
+            <div class="subzone__bars" style="height:100%;">
+              <div style="height:1.5%; background:var(--accent-muted);"></div>
+              <div style="height:8.2%; background:var(--accent-soft);"></div>
+              <div style="height:90.3%; background:var(--accent);"></div>
             </div>
             <div class="subzone__label">Tauranga</div>
           </li>
-          <li class="subzone">
-            <div class="subzone__bars" style="height:74%;">
-              <div style="height:13%; background:var(--accent-muted);"></div>
-              <div style="height:22%; background:var(--accent-soft);"></div>
-              <div style="height:65%; background:var(--accent);"></div>
+          <li class="subzone" aria-label="Pongakawa: 79.9% Excellent, 11.0% Good, 9.0% Marginal">
+            <div class="subzone__bars" style="height:100%;">
+              <div style="height:9.0%; background:var(--accent-muted);"></div>
+              <div style="height:11.0%; background:var(--accent-soft);"></div>
+              <div style="height:79.9%; background:var(--accent);"></div>
             </div>
-            <div class="subzone__label">Western BOP</div>
+            <div class="subzone__label">Pongakawa</div>
           </li>
-          <li class="subzone">
-            <div class="subzone__bars" style="height:68%;">
-              <div style="height:16%; background:var(--accent-muted);"></div>
-              <div style="height:26%; background:var(--accent-soft);"></div>
-              <div style="height:58%; background:var(--accent);"></div>
-            </div>
-            <div class="subzone__label">Whakatāne</div>
-          </li>
-          <li class="subzone">
-            <div class="subzone__bars" style="height:52%;">
-              <div style="height:24%; background:var(--accent-muted);"></div>
-              <div style="height:32%; background:var(--accent-soft);"></div>
-              <div style="height:44%; background:var(--accent);"></div>
+          <li class="subzone" aria-label="Ōpōtiki: 56.4% Excellent, 29.5% Good, 14.1% Marginal">
+            <div class="subzone__bars" style="height:100%;">
+              <div style="height:14.1%; background:var(--accent-muted);"></div>
+              <div style="height:29.5%; background:var(--accent-soft);"></div>
+              <div style="height:56.4%; background:var(--accent);"></div>
             </div>
             <div class="subzone__label">Ōpōtiki</div>
           </li>
         </ul>
-        <p class="subzones__summary">Katikati and Tauranga dominate the Excellent tier. Ōpōtiki scores lowest overall and shows the most mixed distribution across all three tiers.</p>
+        <p class="subzones__summary">Katikati, Te Puke, and Tauranga cluster near 90% Excellent. Pongakawa runs meaningfully lower, and Ōpōtiki is the clear outlier &mdash; barely over half its parcels land in the Excellent tier, with the highest Marginal share of any subzone.</p>
       </div>
 
       <div class="expansion-callout">
-        <!-- Figure as it appeared in the original bundled export — verify in TASK 6 -->
-        <div class="expansion-callout__value">11,383</div>
+        <!-- Terroir docs/methodology.md, "Regional summary and expansion candidates": expansion_candidates table, 13,040 region-wide (the dashboard's own displayed count, 11,378, additionally excludes 2 urban/settlement LCDB classes not described in this card's text, so the unfiltered table total is the correct figure here) -->
+        <div class="expansion-callout__value">13,040</div>
         <div>
           <h3>Expansion candidate parcels</h3>
           <p>Parcels with good soil that aren&rsquo;t currently under orchard or vineyard use &mdash; a real, data-grounded answer to &ldquo;where could this industry grow&rdquo;. This reflects physical land suitability only, not investment readiness: it doesn&rsquo;t model irrigation access, licensing, or land-use change.</p>
@@ -258,8 +259,8 @@
           <p class="correlation__note">Illustrative pattern, n = 5 subzones.</p>
         </div>
         <div>
-          <!-- Figure as it appeared in the original bundled export — verify in TASK 6 -->
-          <div class="correlation__value">r = &minus;0.86</div>
+          <!-- Terroir docs/methodology.md, "Cross-project comparison": psa_incidence_historical r = -0.85 (corrected from -0.86 after the geometry-simplification re-run shifted Ōpōtiki's mean_score slightly) -->
+          <div class="correlation__value">r = &minus;0.85</div>
           <p class="correlation__desc">Soil suitability correlates with Apophenia&rsquo;s synthetic risk indicators, most strongly with Psa disease incidence.</p>
           <div class="callout">
             <p class="callout__label">Read this carefully</p>
@@ -287,12 +288,15 @@
           </div>
           <div class="climate-stat">
             <p class="climate-stat__label">Heavy-rainfall frequency</p>
+            <!-- Real figures — Terroir subzone_climate_risk table, heavy_rain_days_per_year (2016-2025 average, >25mm/day), all 5 named subzones. Verified read-only against terroir.db. -->
             <ul class="rainfall-bars">
-              <li class="rainfall-bar rainfall-bar--max"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:100%;"></span></span><span class="rainfall-bar__label">Ōpōtiki</span></li>
-              <li class="rainfall-bar"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:78%;"></span></span><span class="rainfall-bar__label">Whakatāne</span></li>
-              <li class="rainfall-bar"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:52%;"></span></span><span class="rainfall-bar__label">W. BOP</span></li>
+              <li class="rainfall-bar rainfall-bar--max"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:100%;"></span></span><span class="rainfall-bar__label">Ōpōtiki &mdash; 23.3 days/yr</span></li>
+              <li class="rainfall-bar"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:84.5%;"></span></span><span class="rainfall-bar__label">Te Puke &mdash; 19.7 days/yr</span></li>
+              <li class="rainfall-bar"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:77.3%;"></span></span><span class="rainfall-bar__label">Tauranga &mdash; 18.0 days/yr</span></li>
+              <li class="rainfall-bar"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:76.4%;"></span></span><span class="rainfall-bar__label">Pongakawa &mdash; 17.8 days/yr</span></li>
+              <li class="rainfall-bar"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:75.1%;"></span></span><span class="rainfall-bar__label">Katikati &mdash; 17.5 days/yr</span></li>
             </ul>
-            <p>Ōpōtiki sees the highest frequency of the five subzones.</p>
+            <p>Ōpōtiki sees the highest frequency of the five subzones, though all sit within a fairly narrow band.</p>
           </div>
         </div>
       </div>
