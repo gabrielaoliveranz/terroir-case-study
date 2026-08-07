@@ -29,9 +29,11 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
 <header class="site-header">
   <div class="site-header__mark">Terroir</div>
-  <nav class="site-header__nav" aria-label="Section">
+  <nav class="site-header__nav" aria-label="Page sections">
     <a href="#findings">Findings</a>
     <a href="#methodology">Methodology</a>
     <a href="#results">Results</a>
@@ -39,7 +41,7 @@
   </nav>
 </header>
 
-<main>
+<main id="main-content">
 
   <section class="hero" aria-labelledby="hero-title">
     <p class="eyebrow">Case study &mdash; portfolio project</p>
@@ -144,7 +146,8 @@
         <div class="weight-bar">
           <div class="weight-bar__segment" style="width:40%; background:var(--accent); color:var(--bg-card);">40%</div>
           <div class="weight-bar__segment" style="width:40%; background:var(--accent-soft); color:var(--text);">40%</div>
-          <div class="weight-bar__segment" style="width:10%; background:var(--accent-muted); color:var(--bg-card); font-size:12px; font-weight:700;">10%</div>
+          <!-- color:var(--text) not --bg-card: F4F1EA-on-8A8478 measured 3.29:1, fails WCAG AA at this size (needs 4.5:1); 201C17-on-8A8478 measures 4.56:1 -->
+          <div class="weight-bar__segment" style="width:10%; background:var(--accent-muted); color:var(--text); font-size:12px; font-weight:700;">10%</div>
           <div class="weight-bar__segment" style="width:10%; background:#5C564A; color:var(--bg-card); font-size:12px; font-weight:700;">10%</div>
         </div>
         <div class="weight-legend">

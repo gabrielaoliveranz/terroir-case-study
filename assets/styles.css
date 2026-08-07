@@ -87,6 +87,23 @@ button:focus-visible {
 
 .wrap { max-width: 1240px; margin: 0 auto; padding-left: 32px; padding-right: 32px; }
 
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 12px;
+  z-index: 100;
+  background: var(--text);
+  color: var(--bg-card);
+  padding: 12px 20px;
+  border-radius: 2px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: top 150ms ease;
+}
+.skip-link:focus { top: 12px; }
+
 .eyebrow {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -211,7 +228,9 @@ button:focus-visible {
   border-left: 4px solid var(--accent-gold);
 }
 .finding--highlight .finding__number { color: var(--accent-gold); padding-left: 20px; }
-.finding__number { font-family: var(--font-heading); font-weight: 900; font-size: 32px; color: #5C564A; }
+/* #5C564A measured 2.33:1 on --bg-dark — fails WCAG AA even at this
+   large 32px/900 size (needs 3:1). --accent-muted gives 4.56:1. */
+.finding__number { font-family: var(--font-heading); font-weight: 900; font-size: 32px; color: var(--accent-muted); }
 .finding__heading { font-family: var(--font-heading); font-weight: 700; font-size: 22px; margin: 0 0 10px; }
 .finding__text { font-size: 16.5px; color: var(--text-on-dark-body); margin: 0; max-width: 760px; }
 .finding--highlight .finding__text { color: var(--text-on-dark-highlight); }
@@ -433,6 +452,9 @@ button:focus-visible {
   transition: opacity 300ms ease, transform 300ms ease;
 }
 .back-to-top.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+/* Keyboard focus must never land on an invisible control: a Tab press
+   that reaches this button before scroll makes it visible on its own. */
+.back-to-top:focus-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
 /* ---------- Footer ---------- */
 .site-footer { padding: 96px 32px 64px; }
