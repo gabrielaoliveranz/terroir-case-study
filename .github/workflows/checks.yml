@@ -25,3 +25,6 @@ jobs:
 
       - name: Accessibility (axe-core)
         run: npm run check:a11y
+
+      - name: Mobile overflow
+        run: npm run check:overflow
