@@ -1,5 +1,7 @@
 # Terroir — Case Study
 
+[![Checks](https://github.com/gabrielaoliveranz/terroir-case-study/actions/workflows/checks.yml/badge.svg)](https://github.com/gabrielaoliveranz/terroir-case-study/actions/workflows/checks.yml)
+
 Narrated case study for [Terroir](https://terroir.streamlit.app), a 
 geospatial land-suitability analysis for Bay of Plenty kiwifruit 
 horticulture.
@@ -57,6 +59,9 @@ long to cold-start for a link checker's timeout — same, verified by
 hand), and this repo's own `gabrielaoliveranz.github.io` URLs (the 
 canonical/OG-image/404 absolute links only resolve once this is 
 actually deployed, not from a local checkout).
+
+Runs automatically on every push and pull request via 
+`.github/workflows/checks.yml` (see the badge above).
 
 `no-inline-style` is turned off in `.htmlvalidate.json` — the page 
 uses `style=""` for genuinely data-driven values (chart bar widths 
