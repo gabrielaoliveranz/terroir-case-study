@@ -4,12 +4,48 @@
 // Windows needs either wmic.exe (removed from current Windows builds,
 // which is what start-server-and-test/tree-kill depend on) or taskkill
 // /T — running in-process sidesteps needing either.
+//
+// axe is pointed at an explicit Chrome + ChromeDriver pair installed by
+// browser-driver-manager, rather than the npm chromedriver package plus
+// whatever Chrome happens to be preinstalled: those two drift out of sync
+// independently (npm resolves chromedriver's own latest version; CI images
+// bump their preinstalled Chrome on their own schedule), which is exactly
+// what broke this check in CI (chromedriver 151 vs. runner Chrome 150).
+// browser-driver-manager downloads a matched Chrome-for-Testing +
+// ChromeDriver pair and caches it, so the two versions can't disagree.
 
 import { createServer } from "http-server";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
+import { readFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 
 const PORT = 8080;
 const BASE = `http://localhost:${PORT}`;
+const ENV_PATH = join(homedir(), ".browser-driver-manager", ".env");
+
+function installMatchedChrome() {
+  const result = spawnSync("npx browser-driver-manager install chrome", {
+    stdio: "inherit",
+    shell: true,
+  });
+  if (result.status !== 0) {
+    throw new Error("browser-driver-manager failed to install a matched Chrome/ChromeDriver pair");
+  }
+}
+
+function readDriverPaths() {
+  const env = readFileSync(ENV_PATH, "utf8");
+  const get = (key) => {
+    const match = env.match(new RegExp(`^${key}="(.+)"$`, "m"));
+    if (!match) throw new Error(`${key} not found in ${ENV_PATH}`);
+    return match[1];
+  };
+  return {
+    chromePath: get("CHROME_TEST_PATH"),
+    chromedriverPath: get("CHROMEDRIVER_TEST_PATH"),
+  };
+}
 
 function waitForServer(url, timeoutMs = 15000) {
   const start = Date.now();
@@ -29,6 +65,9 @@ function waitForServer(url, timeoutMs = 15000) {
   });
 }
 
+installMatchedChrome();
+const { chromePath, chromedriverPath } = readDriverPaths();
+
 const server = createServer({ root: ".", cache: -1 });
 server.listen(PORT);
 
@@ -37,7 +76,7 @@ try {
   await waitForServer(`${BASE}/index.html`);
   exitCode = await new Promise((resolve) => {
     const axe = spawn(
-      `npx axe ${BASE}/index.html ${BASE}/404.html --exit`,
+      `npx axe ${BASE}/index.html ${BASE}/404.html --exit --chrome-path "${chromePath}" --chromedriver-path "${chromedriverPath}"`,
       { stdio: "inherit", shell: true }
     );
     axe.on("close", (code) => resolve(code ?? 1));
