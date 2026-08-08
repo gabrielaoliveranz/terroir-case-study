@@ -24,6 +24,10 @@ terroir-case-study/
 │   ├── favicon.svg
 │   ├── fonts/              # self-hosted Archivo + Source Sans 3 (latin + latin-ext only)
 │   └── images/             # dashboard screenshot, Open Graph card
+├── scripts/
+│   └── check-a11y.mjs     # runs axe-core against a local static server
+├── package.json            # dev-only tooling: html-validate, linkinator, axe-core
+├── .htmlvalidate.json
 ├── CLAUDE.md              # working conventions for this repo
 └── LICENSE.md
 ```
@@ -32,6 +36,32 @@ terroir-case-study/
 
 No build step — open `index.html` directly in a browser, or serve the 
 folder with any static file server (e.g. `python -m http.server`).
+
+## Running the checks
+
+A static page has no test suite, but it has checkable properties. 
+Requires [Node](https://nodejs.org/):
+
+```bash
+npm install
+npm run check         # all three, in order
+npm run check:html    # HTML validity (html-validate) — no unclosed tags, no duplicate IDs
+npm run check:links   # every internal + external link resolves (linkinator)
+npm run check:a11y    # axe-core against a local static server, 0 violations required
+```
+
+`check:links` skips `linkedin.com` (blocks automated crawlers 
+regardless of headers — verified reachable by hand), 
+`terroir.streamlit.app` (a free-tier Streamlit app that can take too 
+long to cold-start for a link checker's timeout — same, verified by 
+hand), and this repo's own `gabrielaoliveranz.github.io` URLs (the 
+canonical/OG-image/404 absolute links only resolve once this is 
+actually deployed, not from a local checkout).
+
+`no-inline-style` is turned off in `.htmlvalidate.json` — the page 
+uses `style=""` for genuinely data-driven values (chart bar widths 
+computed from real percentages), not layout that belongs in the 
+stylesheet.
 
 ## Live
 

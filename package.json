@@ -1,0 +1,18 @@
+{
+  "name": "terroir-case-study",
+  "private": true,
+  "description": "Automated checks for the Terroir case study (static HTML, no build step).",
+  "scripts": {
+    "check:html": "html-validate index.html 404.html",
+    "check:links": "linkinator index.html 404.html --recurse --skip \"linkedin\\.com|terroir\\.streamlit\\.app|gabrielaoliveranz\\.github\\.io|terroir-case-study/\"",
+    "check:a11y": "node scripts/check-a11y.mjs",
+    "serve": "http-server . -p 8080 -s",
+    "check": "npm run check:html && npm run check:links && npm run check:a11y"
+  },
+  "devDependencies": {
+    "@axe-core/cli": "^4.10.2",
+    "html-validate": "^9.7.1",
+    "http-server": "^14.1.1",
+    "linkinator": "^6.1.2"
+  }
+}
