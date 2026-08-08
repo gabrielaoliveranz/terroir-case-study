@@ -75,8 +75,17 @@ let exitCode = 1;
 try {
   await waitForServer(`${BASE}/index.html`);
   exitCode = await new Promise((resolve) => {
+    // Force prefers-reduced-motion so the reveal-on-scroll opacity/transform
+    // rules in styles.css (scoped to html.motion-ready) never apply: without
+    // it, axe scans a single unscrolled viewport, so every [data-reveal]
+    // section below the fold is still sitting at opacity:0 (text blended to
+    // the exact background colour, i.e. a 1:1 contrast ratio) and every real
+    // colour pairing gets buried under false color-contrast failures. This
+    // makes axe see the same fully-visible DOM state a reduced-motion or
+    // no-JS visitor gets, which is the only state a non-scrolling scan can
+    // meaningfully audit.
     const axe = spawn(
-      `npx axe ${BASE}/index.html ${BASE}/404.html --exit --chrome-path "${chromePath}" --chromedriver-path "${chromedriverPath}"`,
+      `npx axe ${BASE}/index.html ${BASE}/404.html --exit --chrome-path "${chromePath}" --chromedriver-path "${chromedriverPath}" --chrome-options force-prefers-reduced-motion`,
       { stdio: "inherit", shell: true }
     );
     axe.on("close", (code) => resolve(code ?? 1));
