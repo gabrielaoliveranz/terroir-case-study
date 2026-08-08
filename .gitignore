@@ -13,3 +13,6 @@ Desktop.ini
 # Node tooling (HTML/link/accessibility checks)
 node_modules/
 npm-debug.log*
+
+# Local-only review artifacts (screenshots etc.) — never committed
+review-screenshots/
