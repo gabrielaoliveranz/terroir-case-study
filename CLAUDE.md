@@ -41,6 +41,16 @@ Required on every change: `lang="en-NZ"` on `<html>`, an `alt` on every
 image (empty `alt=""` only for genuinely decorative ones), visible focus
 states on links, and text contrast meeting WCAG AA.
 
+No horizontal overflow at any viewport width from 320px up — verified by
+measurement (`document.documentElement.scrollWidth` against `clientWidth`
+at 320/390/768px, `npm run check:overflow`), never by eye. A flex or grid
+item's default `min-width: auto` refuses to shrink below its own content's
+min-content width, so a row can overflow a narrow viewport with nothing in
+the CSS looking obviously wrong; `min-width: 0` / `minmax(0, 1fr)` on any
+new flex/grid column that holds text or a percentage-style label, and
+`overflow-wrap` on any new heading/paragraph inside one, is the standing
+default — not something to add only after a check fails.
+
 ## Head and link previews
 
 `<title>`, `<meta name="description">` and Open Graph / Twitter card

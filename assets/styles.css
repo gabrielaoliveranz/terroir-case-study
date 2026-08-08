@@ -232,7 +232,11 @@ button:focus-visible {
   background: var(--bg-dark);
   padding: 32px 0;
   display: grid;
-  grid-template-columns: 64px 1fr;
+  /* minmax(0, 1fr), not 1fr: a bare 1fr column still won't shrink below its
+     content's min-content width (grid's implicit min-width:auto), so a long
+     heading/paragraph forces the row wider than the viewport instead of
+     wrapping. Same fix applied to every text-holding grid/flex column below. */
+  grid-template-columns: 64px minmax(0, 1fr);
   gap: 24px;
 }
 .finding--highlight {
@@ -243,8 +247,8 @@ button:focus-visible {
 /* #5C564A measured 2.33:1 on --bg-dark — fails WCAG AA even at this
    large 32px/900 size (needs 3:1). --accent-muted gives 4.56:1. */
 .finding__number { font-family: var(--font-heading); font-weight: 900; font-size: 32px; color: var(--accent-muted); }
-.finding__heading { font-family: var(--font-heading); font-weight: 700; font-size: 22px; margin: 0 0 10px; }
-.finding__text { font-size: 16.5px; color: var(--text-on-dark-body); margin: 0; max-width: 760px; }
+.finding__heading { font-family: var(--font-heading); font-weight: 700; font-size: 22px; margin: 0 0 10px; overflow-wrap: break-word; }
+.finding__text { font-size: 16.5px; color: var(--text-on-dark-body); margin: 0; max-width: 760px; overflow-wrap: break-word; }
 .finding--highlight .finding__text { color: var(--text-on-dark-highlight); }
 .finding__badge {
   display: inline-block;
@@ -350,9 +354,25 @@ button:focus-visible {
   padding: 0;
   transform-origin: bottom;
 }
-.subzone { display: flex; flex-direction: column; align-items: center; flex: 1; height: 100%; justify-content: flex-end; }
+.subzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 0; /* flex items default to min-width:auto — without this, 5 columns whose content (the "91.5%" label) won't shrink below its min-content width blow out the viewport on mobile instead of the row shrinking to fit. */
+  height: 100%;
+  justify-content: flex-end;
+}
 .subzone__bars { width: 100%; display: flex; flex-direction: column; }
-.subzone__label { font-size: 13px; color: var(--text-muted); margin-top: 10px; font-family: var(--font-heading); font-weight: 700; text-align: center; }
+.subzone__label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 10px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-align: center;
+  overflow-wrap: anywhere; /* subzone names ("Pongakawa") are single unbroken words with no spaces to wrap at */
+}
 .subzone__pct {
   display: flex;
   align-items: center;
@@ -532,18 +552,35 @@ html.motion-ready [data-grow="y"] { transform: scaleY(0); transform-origin: bott
 html.motion-ready [data-reveal].is-visible [data-grow] { transform: scale(1); }
 
 @media (max-width: 860px) {
+  /* minmax(0, 1fr) rather than 1fr: even a single stacked column keeps
+     grid's implicit min-width:auto, so one long heading/word can still
+     force the row wider than the viewport instead of wrapping inside it. */
   .differentiator__grid,
   .methodology__grid,
   .breakdown,
-  .correlation { grid-template-columns: 1fr; }
-  .climate-grid { grid-template-columns: 1fr; gap: 32px; }
-  .limitations-grid { grid-template-columns: 1fr; }
+  .correlation { grid-template-columns: minmax(0, 1fr); }
+  .climate-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .limitations-grid { grid-template-columns: minmax(0, 1fr); }
   .limitation--wide { grid-column: span 1; }
+  .expansion-callout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding: 32px;
+  }
+  .expansion-callout__value { font-size: clamp(40px, 12vw, 84px); }
 }
 
 @media (max-width: 640px) {
   .site-header { flex-wrap: wrap; row-gap: 12px; padding-top: 24px; }
   .site-header__nav { gap: 6px 16px; font-size: 14px; flex-wrap: wrap; width: 100%; }
+  .weight-legend { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  /* At 5 columns, 28px of gap alone costs 112px — more than a third of a
+     320px viewport — before any bar has drawn a single pixel. Shrinking the
+     gap and the two text sizes keeps all 5 subzones, their labels, and
+     their percentages on-screen and legible instead of merely non-overflowing. */
+  .subzone-chart { gap: 6px; height: 200px; }
+  .subzone__pct { font-size: 11px; }
+  .subzone__label { font-size: 10.5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
