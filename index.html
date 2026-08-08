@@ -55,7 +55,7 @@
     </div>
   </section>
 
-  <section class="differentiator" aria-labelledby="differentiator-title">
+  <section class="differentiator" aria-labelledby="differentiator-title" data-reveal>
     <div class="differentiator__grid">
       <h2 id="differentiator-title" class="differentiator__title">Most portfolio projects run on synthetic data. This one doesn&rsquo;t.</h2>
       <div class="differentiator__body">
@@ -81,7 +81,7 @@
     </ul>
   </section>
 
-  <section id="findings" class="findings" aria-labelledby="findings-title">
+  <section id="findings" class="findings" aria-labelledby="findings-title" data-reveal>
     <div class="wrap">
       <p class="eyebrow" style="color:#D9A66B;">What we found along the way</p>
       <h2 id="findings-title" class="findings__title">Real government data comes with real problems. Here&rsquo;s what broke, and how each one was caught.</h2>
@@ -131,7 +131,7 @@
     </div>
   </section>
 
-  <section id="methodology" class="methodology" aria-labelledby="methodology-title">
+  <section id="methodology" class="methodology" aria-labelledby="methodology-title" data-reveal>
     <div class="methodology__grid">
       <div>
         <p class="eyebrow">Methodology</p>
@@ -143,7 +143,7 @@
       <div class="weight-card">
         <p class="weight-card__label">Score weighting</p>
         <!-- Terroir docs/methodology.md, "Weights" -->
-        <div class="weight-bar">
+        <div class="weight-bar" data-grow="x">
           <div class="weight-bar__segment" style="width:40%; background:var(--accent); color:var(--bg-card);">40%</div>
           <div class="weight-bar__segment" style="width:40%; background:var(--accent-soft); color:var(--text);">40%</div>
           <!-- color:var(--text) not --bg-card: F4F1EA-on-8A8478 measured 3.29:1, fails WCAG AA at this size (needs 4.5:1); 201C17-on-8A8478 measures 4.56:1 -->
@@ -160,7 +160,7 @@
     </div>
   </section>
 
-  <section id="results" class="results" aria-labelledby="results-title">
+  <section id="results" class="results" aria-labelledby="results-title" data-reveal>
     <div class="wrap">
       <p class="eyebrow">Key results</p>
       <h2 id="results-title" class="results__title">The region&rsquo;s land is more suitable than expected &mdash; and unevenly so</h2>
@@ -169,7 +169,7 @@
         <div>
           <h3>Region-wide suitability breakdown</h3>
           <!-- Terroir docs/methodology.md, suitability_levels_summary: Excellent 76.4%, Good 18.1%, Marginal 5.5% -->
-          <div class="breakdown-bar">
+          <div class="breakdown-bar" data-grow="x">
             <div class="breakdown-bar__segment" style="width:76.4%; background:var(--accent); color:var(--bg-card); font-size:18px;">76.4%</div>
             <div class="breakdown-bar__segment" style="width:18.1%; background:var(--accent-soft); color:var(--text); justify-content:center; padding-left:0; font-size:14px;">18.1%</div>
             <div class="breakdown-bar__segment" style="width:5.5%; background:var(--accent-muted);"></div>
@@ -187,13 +187,13 @@
         <h3>Suitability by subzone</h3>
         <!-- Real figures, not illustrative — Terroir subzone_summary.py / subzone_summary table (the 5 named Apophenia subzones: Katikati, Tauranga, Te Puke, Pongakawa, Ōpōtiki). Verified read-only against terroir.db. -->
         <p class="subzones__note">The 5 named subzones this analysis shares with Apophenia&rsquo;s corridor comparison &mdash; not all 4 territorial authorities.</p>
-        <ul class="subzone-chart">
+        <ul class="subzone-chart" data-grow="y">
           <li class="subzone">
             <span class="sr-only">Katikati: 91.5% Excellent, 7.7% Good, 0.7% Marginal</span>
             <div class="subzone__bars" aria-hidden="true" style="height:100%;">
               <div style="height:0.7%; background:var(--accent-muted);"></div>
               <div style="height:7.7%; background:var(--accent-soft);"></div>
-              <div style="height:91.5%; background:var(--accent);"></div>
+              <div style="height:91.5%; background:var(--accent);"><span class="subzone__pct">91.5%</span></div>
             </div>
             <div class="subzone__label" aria-hidden="true">Katikati</div>
           </li>
@@ -202,7 +202,7 @@
             <div class="subzone__bars" aria-hidden="true" style="height:100%;">
               <div style="height:2.6%; background:var(--accent-muted);"></div>
               <div style="height:6.6%; background:var(--accent-soft);"></div>
-              <div style="height:90.8%; background:var(--accent);"></div>
+              <div style="height:90.8%; background:var(--accent);"><span class="subzone__pct">90.8%</span></div>
             </div>
             <div class="subzone__label" aria-hidden="true">Te Puke</div>
           </li>
@@ -211,7 +211,7 @@
             <div class="subzone__bars" aria-hidden="true" style="height:100%;">
               <div style="height:1.5%; background:var(--accent-muted);"></div>
               <div style="height:8.2%; background:var(--accent-soft);"></div>
-              <div style="height:90.3%; background:var(--accent);"></div>
+              <div style="height:90.3%; background:var(--accent);"><span class="subzone__pct">90.3%</span></div>
             </div>
             <div class="subzone__label" aria-hidden="true">Tauranga</div>
           </li>
@@ -220,7 +220,7 @@
             <div class="subzone__bars" aria-hidden="true" style="height:100%;">
               <div style="height:9.0%; background:var(--accent-muted);"></div>
               <div style="height:11.0%; background:var(--accent-soft);"></div>
-              <div style="height:79.9%; background:var(--accent);"></div>
+              <div style="height:79.9%; background:var(--accent);"><span class="subzone__pct">79.9%</span></div>
             </div>
             <div class="subzone__label" aria-hidden="true">Pongakawa</div>
           </li>
@@ -229,7 +229,7 @@
             <div class="subzone__bars" aria-hidden="true" style="height:100%;">
               <div style="height:14.1%; background:var(--accent-muted);"></div>
               <div style="height:29.5%; background:var(--accent-soft);"></div>
-              <div style="height:56.4%; background:var(--accent);"></div>
+              <div style="height:56.4%; background:var(--accent);"><span class="subzone__pct">56.4%</span></div>
             </div>
             <div class="subzone__label" aria-hidden="true">Ōpōtiki</div>
           </li>
@@ -284,7 +284,7 @@
           </div>
           <div class="climate-stat">
             <p class="climate-stat__label">Chill hours</p>
-            <ul class="chill-bars">
+            <ul class="chill-bars" data-grow="y">
               <li class="chill-bars__bar" style="height:70%;"></li>
               <li class="chill-bars__bar chill-bars__bar--secondary" style="height:48%;"></li>
             </ul>
@@ -294,7 +294,7 @@
           <div class="climate-stat">
             <p class="climate-stat__label">Heavy-rainfall frequency</p>
             <!-- Real figures — Terroir subzone_climate_risk table, heavy_rain_days_per_year (2016-2025 average, >25mm/day), all 5 named subzones. Verified read-only against terroir.db. -->
-            <ul class="rainfall-bars">
+            <ul class="rainfall-bars" data-grow="x">
               <li class="rainfall-bar rainfall-bar--max"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:100%;"></span></span><span class="rainfall-bar__label">Ōpōtiki &mdash; 23.3 days/yr</span></li>
               <li class="rainfall-bar"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:84.5%;"></span></span><span class="rainfall-bar__label">Te Puke &mdash; 19.7 days/yr</span></li>
               <li class="rainfall-bar"><span class="rainfall-bar__track"><span class="rainfall-bar__fill" style="width:77.3%;"></span></span><span class="rainfall-bar__label">Tauranga &mdash; 18.0 days/yr</span></li>
@@ -308,7 +308,7 @@
     </div>
   </section>
 
-  <section class="map-section" aria-labelledby="map-title">
+  <section class="map-section" aria-labelledby="map-title" data-reveal>
     <p class="eyebrow">Suitability map</p>
     <h2 id="map-title" class="map-section__title">Every scored parcel, mapped</h2>
     <div class="map-frame">
@@ -316,7 +316,7 @@
     </div>
   </section>
 
-  <section id="limitations" class="limitations" aria-labelledby="limitations-title">
+  <section id="limitations" class="limitations" aria-labelledby="limitations-title" data-reveal>
     <div class="wrap">
       <p class="eyebrow">Limitations</p>
       <h2 id="limitations-title" class="limitations__title">What this model doesn&rsquo;t cover</h2>
@@ -351,7 +351,7 @@
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
 </button>
 
-<footer class="site-footer">
+<footer class="site-footer" data-reveal>
   <div class="wrap">
     <h2 class="site-footer__title">Explore the dashboard, the code, or get in touch</h2>
     <div class="site-footer__actions">

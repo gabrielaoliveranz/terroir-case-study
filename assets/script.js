@@ -3,9 +3,14 @@
 // Every number and every section is already in the HTML source and
 // fully visible without this file (see index.html and CLAUDE.md,
 // "Hand-written, semantic HTML — never a bundled export"). This script
-// only adds the stat count-up and the back-to-top button that the
-// original bundled export had; neither hides or delays any content —
-// the count-up starts from the real number already in the HTML.
+// adds the stat count-up, the scroll-reveal fade-ins, the chart-grow
+// animations, and the back-to-top button that the original bundled
+// export had. None of it hides or delays content by default: the
+// count-up starts from the real number already in the HTML, and the
+// reveal/grow CSS only takes effect once .motion-ready is added below
+// (IntersectionObserver support + motion allowed) — a no-JS visitor,
+// an older browser, or a reduced-motion visitor all see the finished
+// page immediately, never a hidden one.
 
 (function () {
   'use strict';
@@ -14,7 +19,25 @@
     '(prefers-reduced-motion: reduce)'
   ).matches;
 
-  if ('IntersectionObserver' in window && !prefersReducedMotion) {
+  var motionEnabled = 'IntersectionObserver' in window && !prefersReducedMotion;
+
+  if (motionEnabled) {
+    document.documentElement.classList.add('motion-ready');
+
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.2 }
+    );
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      revealObserver.observe(el);
+    });
+
     var statsEl = document.querySelector('.stats');
     if (statsEl) {
       var countObserver = new IntersectionObserver(

@@ -353,6 +353,16 @@ button:focus-visible {
 .subzone { display: flex; flex-direction: column; align-items: center; flex: 1; height: 100%; justify-content: flex-end; }
 .subzone__bars { width: 100%; display: flex; flex-direction: column; }
 .subzone__label { font-size: 13px; color: var(--text-muted); margin-top: 10px; font-family: var(--font-heading); font-weight: 700; text-align: center; }
+.subzone__pct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--bg-card);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 17px;
+}
 .subzones__summary { font-size: 16px; color: var(--text-body); margin: 22px 0 0; max-width: 760px; }
 
 .expansion-callout {
@@ -493,6 +503,34 @@ button:focus-visible {
 .site-footer__status { display: flex; align-items: center; gap: 10px; }
 .site-footer__dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #0B4F3D; }
 
+/* ---------- Scroll-reveal + chart-grow (progressive enhancement) ----------
+   Restored from the original bundled export — same 700ms/900ms timing
+   and easing. Every [data-reveal]/[data-grow] element is fully visible
+   in its final state by default; script.js only adds .motion-ready to
+   <html> (and therefore only this CSS takes effect at all) when
+   IntersectionObserver is supported AND prefers-reduced-motion is not
+   set, so a no-JS visitor, an older browser, and a reduced-motion
+   visitor all see the finished page immediately, never a hidden one. */
+html.motion-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms ease-out, transform 700ms ease-out;
+}
+html.motion-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+html.motion-ready [data-grow] {
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.motion-ready [data-grow="x"] { transform: scaleX(0); transform-origin: left; }
+html.motion-ready [data-grow="y"] { transform: scaleY(0); transform-origin: bottom; }
+/* Grow elements key off their ANCESTOR section's reveal state, not
+   their own — matching the original, where e.g. every chart inside
+   Results grows together when the Results section itself scrolls
+   into view, rather than each animating independently. */
+html.motion-ready [data-reveal].is-visible [data-grow] { transform: scale(1); }
+
 @media (max-width: 860px) {
   .differentiator__grid,
   .methodology__grid,
@@ -510,4 +548,12 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .back-to-top { transition: none; }
+  /* Defence in depth: script.js already skips adding .motion-ready
+     when this is set, but don't rely on JS alone to honour it. */
+  html.motion-ready [data-reveal],
+  html.motion-ready [data-grow] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
