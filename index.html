@@ -59,7 +59,7 @@
     <div class="differentiator__grid">
       <h2 id="differentiator-title" class="differentiator__title">Most portfolio projects run on synthetic data. This one doesn&rsquo;t.</h2>
       <div class="differentiator__body">
-        <p>Terroir is built on real official sources: cadastral parcels from LINZ, soil properties from S-map/LRIS, land cover from LCDB, and climate records from Open-Meteo. That means real data-quality problems along the way &mdash; found, diagnosed, and fixed in the open, visible in the commit history rather than smoothed over.</p>
+        <p>Terroir is built on real official sources: cadastral parcels from LINZ, soil properties from S-map/LRIS, land cover from LCDB, and climate records from Open-Meteo. That means real data-quality problems along the way &mdash; which I found, diagnosed and fixed in the open, visible in the commit history rather than smoothed over.</p>
         <p>The section below covers five of those problems in plain language.</p>
       </div>
     </div>
@@ -84,14 +84,14 @@
   <section id="findings" class="findings" aria-labelledby="findings-title" data-reveal>
     <div class="wrap">
       <p class="eyebrow" style="color:#D9A66B;">What we found along the way</p>
-      <h2 id="findings-title" class="findings__title">Real government data comes with real problems. Here&rsquo;s what broke, and how each one was caught.</h2>
+      <h2 id="findings-title" class="findings__title">Real government data comes with real problems. Here&rsquo;s what broke, and how I caught each one.</h2>
 
       <ol class="finding-list">
         <li class="finding">
           <div class="finding__number">01</div>
           <div>
             <h3 class="finding__heading">A coordinate system that lied about itself</h3>
-            <p class="finding__text">A geospatial source was labelled WGS84, a common global coordinate system &mdash; but it was actually NZGD2000, New Zealand&rsquo;s local standard. The mislabel went unnoticed until it broke a later spatial join, shifting parcels out of place. Fixed by verifying every new source&rsquo;s CRS against its own metadata rather than assuming the label was correct.</p>
+            <p class="finding__text">A geospatial source was labelled WGS84, a common global coordinate system &mdash; but it was actually NZGD2000, New Zealand&rsquo;s local standard. The mislabel went unnoticed until it broke a later spatial join, shifting parcels out of place. I fixed it by verifying every new source&rsquo;s CRS against its own metadata rather than assuming the label was correct.</p>
           </div>
         </li>
 
@@ -99,7 +99,7 @@
           <div class="finding__number">02</div>
           <div>
             <h3 class="finding__heading">A join key that wasn&rsquo;t actually unique</h3>
-            <p class="finding__text">LINZ&rsquo;s parcel_id looks like a natural primary key, but cross-leases and unit titles share it across multiple legal records on the same physical land. Merging on it silently let one parcel&rsquo;s data overwrite another&rsquo;s, with no error raised. Traced to a more reliable field and re-verified as genuinely unique before reusing it.</p>
+            <p class="finding__text">LINZ&rsquo;s parcel_id looks like a natural primary key, but cross-leases and unit titles share it across multiple legal records on the same physical land. Merging on it silently let one parcel&rsquo;s data overwrite another&rsquo;s, with no error raised. I traced it to a more reliable field and re-verified that one as genuinely unique before reusing it.</p>
           </div>
         </li>
 
@@ -108,7 +108,7 @@
           <div>
             <span class="finding__badge">Most significant</span>
             <h3 class="finding__heading">A macron silently deleted a whole district</h3>
-            <p class="finding__text">Ōpōtiki &mdash; like many NZ place names &mdash; carries a macron. The plain-ASCII text filter used to select territorial authorities didn&rsquo;t match it. No error, no warning: Ōpōtiki District was simply absent from the analysis from day one. It went undetected until a later scope audit compared the filtered list against the full set of source districts and found the gap.</p>
+            <p class="finding__text">Ōpōtiki &mdash; like many NZ place names &mdash; carries a macron. The plain-ASCII text filter used to select territorial authorities didn&rsquo;t match it. No error, no warning: Ōpōtiki District was simply absent from the analysis from day one. I only found it when I compared the filtered list against the full set of source districts and saw the gap.</p>
           </div>
         </li>
 
@@ -116,7 +116,7 @@
           <div class="finding__number">04</div>
           <div>
             <h3 class="finding__heading">An off-by-one that misfiled 19% of parcels</h3>
-            <p class="finding__text">The function that sorts parcels into Excellent/Good/Marginal tiers had a boundary error &mdash; a score sitting exactly on a tier edge landed one tier lower than it should have. It misclassified roughly 19% of scored parcels before being caught and corrected.</p>
+            <p class="finding__text">The function that sorts parcels into Excellent/Good/Marginal tiers had a boundary error &mdash; a score sitting exactly on a tier edge landed one tier lower than it should have. It misclassified roughly 19% of scored parcels before I caught and corrected it.</p>
           </div>
         </li>
 
@@ -124,7 +124,8 @@
           <div class="finding__number">05</div>
           <div>
             <h3 class="finding__heading">A geographic scope that missed a growing region</h3>
-            <p class="finding__text">The initial scope covered three districts. Local knowledge flagged Whakatāne District as a genuine kiwifruit-growing area missing from that list, so it was added. Rather than assuming the remaining neighbouring districts had no orchard land, that was confirmed empirically using the land-cover dataset itself &mdash; the evidence, not an assumption, closed the question.</p>
+            <!-- Terroir docs/data_sources.md, "Scope completeness verification (Bay of Plenty region, 6 TAs total)" -->
+            <p class="finding__text">The initial scope covered three districts. I missed Whakatāne. I only realised later, remembering that I&rsquo;d worked in Edgecumbe and that there are orchards in that district I hadn&rsquo;t included. Rather than assuming the remaining neighbouring districts had no orchard land, that was confirmed empirically using the land-cover dataset itself &mdash; the evidence, not an assumption, closed the question.</p>
           </div>
         </li>
       </ol>
