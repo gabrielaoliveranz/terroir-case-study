@@ -3,6 +3,41 @@
 This repo is the narrated case study for Terroir. The analysis itself
 lives in `horticultural-land-suitability-nz`; this repo presents it.
 
+## This page is served under the portfolio's custom domain, not its own
+
+This is a GitHub Pages *project* site (`gabrielaoliveranz.github.io/terroir-case-study/`),
+not a user/root site — it has no CNAME of its own. When the portfolio
+repo (`gabrielaoliveranz.github.io`, the user/root page) configured its
+own custom domain (`gabrielaolivera.nz`), GitHub Pages started
+redirecting the **entire `gabrielaoliveranz.github.io` hostname** —
+including this project's path — to the equivalent path under that
+custom domain. That's not a per-repo setting; it's how GitHub Pages
+handles a custom domain on the user/root site, and it applies whether
+or not this repo does anything about it.
+
+Verified 2026-08-13: `https://gabrielaoliveranz.github.io/terroir-case-study/`
+now 301s to `https://gabrielaolivera.nz/terroir-case-study/`, which
+serves this page's real content. Because a canonical URL that points at
+a redirect tells search engines the authoritative copy lives at the far
+end of that redirect — which then bounces right back — `index.html`'s
+canonical, `og:url`, `og:image` and `twitter:image`, and `404.html`'s
+canonical were all migrated to `https://gabrielaolivera.nz/terroir-case-study/`
+in the same change. **If the portfolio's custom domain ever changes
+again, or moves off GitHub Pages, this repo's five copies need to move
+with it** — nothing here will fail loudly if they don't; the page just
+quietly starts pointing at a version of itself that redirects.
+
+**This is enforced, not just documented:** `npm run check:canonical`
+(`scripts/check-canonical-urls.mjs`, wired into `npm run check` and CI
+— ported from the portfolio repo's own script of the same name, adapted
+here since this repo has no `sitemap.xml` or `robots.txt`) treats
+`index.html`'s `<link rel="canonical">` as the source of truth and
+fails naming the exact file and tag if any of the other four disagree.
+Verified against a real mismatch before being trusted: temporarily
+pointing `404.html`'s canonical at the wrong path made it fail with the
+exact file, the expected value and the actual value named, then it was
+reverted clean.
+
 ## Figures are quoted, not owned
 
 Every number on this page — 22,834 parcels, 21,491 scored, 76.4%

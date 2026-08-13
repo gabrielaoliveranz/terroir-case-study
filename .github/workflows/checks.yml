@@ -28,3 +28,6 @@ jobs:
 
       - name: Mobile overflow
         run: npm run check:overflow
+
+      - name: Canonical URL agrees everywhere
+        run: npm run check:canonical

@@ -56,7 +56,7 @@ npm run check:a11y    # axe-core against a local static server, 0 violations req
 regardless of headers — verified reachable by hand), 
 `terroir.streamlit.app` (a free-tier Streamlit app that can take too 
 long to cold-start for a link checker's timeout — same, verified by 
-hand), and this repo's own `gabrielaoliveranz.github.io` URLs (the 
+hand), and this repo's own `gabrielaolivera.nz` URLs (the 
 canonical/OG-image/404 absolute links only resolve once this is 
 actually deployed, not from a local checkout).
 
@@ -70,7 +70,7 @@ stylesheet.
 
 ## Live
 
-**Case study:** https://gabrielaoliveranz.github.io/terroir-case-study/  
+**Case study:** https://gabrielaolivera.nz/terroir-case-study/  
 **Live dashboard:** https://terroir.streamlit.app  
 **Source repo:** https://github.com/gabrielaoliveranz/horticultural-land-suitability-nz
 
