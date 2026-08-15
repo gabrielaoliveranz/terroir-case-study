@@ -521,7 +521,6 @@ button:focus-visible {
   color: var(--text-subtle);
 }
 .site-footer__status { display: flex; align-items: center; gap: 10px; }
-.site-footer__dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #0B4F3D; }
 
 /* ---------- Scroll-reveal + chart-grow (progressive enhancement) ----------
    Restored from the original bundled export — same 700ms/900ms timing

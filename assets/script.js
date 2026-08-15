@@ -24,6 +24,15 @@
   if (motionEnabled) {
     document.documentElement.classList.add('motion-ready');
 
+    // threshold is a fraction of the TARGET's own height, not the
+    // viewport's — on narrow mobile widths, sections stack to a single
+    // column and can run several viewport-heights tall, so a fraction
+    // that high (or even close to it) is never reached and the section
+    // stays permanently invisible. rootMargin, by contrast, shrinks the
+    // root (viewport) by a fixed percentage regardless of target size, so
+    // threshold: 0 (any overlap at all) combined with it fires reliably
+    // no matter how tall the section is, while still waiting until the
+    // section is meaningfully scrolled into view before revealing it.
     var revealObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
@@ -32,7 +41,7 @@
           revealObserver.unobserve(entry.target);
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0, rootMargin: '0px 0px -15% 0px' }
     );
     document.querySelectorAll('[data-reveal]').forEach(function (el) {
       revealObserver.observe(el);
