@@ -4,7 +4,7 @@
   "description": "Automated checks for the Terroir case study (static HTML, no build step).",
   "scripts": {
     "check:html": "html-validate index.html 404.html",
-    "check:links": "linkinator index.html 404.html --recurse --skip \"linkedin\\.com|terroir\\.streamlit\\.app|gabrielaolivera\\.nz|terroir-case-study/\"",
+    "check:links": "linkinator index.html 404.html --recurse --skip \"linkedin\\.com|terroir\\.streamlit\\.app|gabrielaolivera\\.nz/terroir-case-study|terroir-case-study/\"",
     "check:a11y": "node scripts/check-a11y.mjs",
     "check:overflow": "node scripts/check-overflow.mjs",
     "check:canonical": "node scripts/check-canonical-urls.mjs",
