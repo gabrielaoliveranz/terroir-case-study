@@ -86,6 +86,36 @@ new flex/grid column that holds text or a percentage-style label, and
 `overflow-wrap` on any new heading/paragraph inside one, is the standing
 default — not something to add only after a check fails.
 
+## Contrast must hold in every interactive state, not just at rest
+
+Ported from the portfolio repo's CLAUDE.md after the same bug shape was
+found live here on 2026-08-15, not just theorised: the global
+`a:hover { color: var(--accent); }` rule (`assets/styles.css`) has
+higher specificity than `.button--primary`'s own colour rule, so on
+hover — and on `:active`, since a real click always co-occurs with
+hover — `.button--primary`'s text colour silently flipped to
+`var(--accent)`, which is *also* its background colour. Measured
+directly in a live headless Chrome, not eyeballed: default state is a
+clean 5.49:1; hovered or active, the computed foreground/background
+pair is identical, 1.00:1 — the "View live dashboard" button's label
+disappears completely for any mouse user who hovers or clicks it.
+`check:a11y` never caught this because axe-core only audits the DOM's
+resting state; no check here ever drove real `:hover`/`:active` and
+re-measured.
+
+**Whenever button, link or control styling changes, check contrast in
+every state — default, `:hover`, `:focus-visible`, `:active` — by
+measurement, not by eye.** The portfolio repo's
+`scripts/check-contrast-states.mjs` does this for its own interactive
+elements by real mouse-hover and keyboard-focus in a live browser; this
+repo has no equivalent yet, so until one exists here, re-verify by hand
+(a real WebDriver `actions().move({origin: el}).perform()`, not a
+static CSS read) after any change that touches `.button--primary`,
+`.button--secondary`, `.site-header__back`, `.site-header__nav a`, or
+any future interactive element — a generic `a:hover`/`a:focus-visible`
+rule sitting above more specific component rules is exactly the shape
+that hides this class of bug from a static review.
+
 ## Head and link previews
 
 `<title>`, `<meta name="description">` and Open Graph / Twitter card
@@ -107,3 +137,63 @@ en-NZ spelling throughout, matching the Terroir repo: colour, behaviour,
 organise, analyse, centre, licence as a noun, catalogue, modelling.
 Before marking any copy change done, grep for the common US patterns
 (`-ize`, `-or`, `-er`, `-yze`) and fix what you find.
+
+## A skip list is a coverage hole — every entry needs a stated reason and the narrowest possible pattern
+
+Ported from the portfolio repo's CLAUDE.md, which documented the first
+instance of this bug shape (an unanchored `gabrielaoliveranz\.github\.io`
+`check:links` skip that silently swallowed a real cross-repo link). This
+repo has now hit the same shape twice on its own:
+
+1. When `check:links` was first added here, its self-reference skip was
+   the same unanchored `gabrielaoliveranz\.github\.io` pattern — matching
+   the *entire* domain, not just this repo's own canonical/OG paths on it.
+2. When the canonical URL moved to `gabrielaolivera.nz` (commit `0e2ca2c`),
+   that commit's own message says it "narrows check:links' self-reference
+   --skip pattern to match" — but the pattern was only swapped to
+   `gabrielaolivera\.nz`, still unanchored, still matching the entire
+   domain, not actually narrowed at all. It went uncaught because nothing
+   in this repo linked *out* to that domain yet, so there was nothing for
+   the too-wide pattern to hide.
+3. On 2026-08-15, adding this page's own "back to portfolio" link
+   (`https://gabrielaolivera.nz/`) gave the pattern something real to
+   hide — and it would have: that new outbound link matched the same
+   unanchored `gabrielaolivera\.nz` skip and would have gone unchecked by
+   default. Caught only by deliberately re-running `check:links` and
+   reading its actual output line-by-line instead of trusting a green
+   `npm run check`. Fixed by anchoring the pattern to
+   `gabrielaolivera\.nz/terroir-case-study` — the only paths this repo
+   actually self-references (its own canonical, og:image, twitter:image,
+   and 404.html canonical) — so a future outbound link to the bare domain,
+   or to any other path on it, is checked like any other link.
+
+**Every `--skip` entry needs its own stated reason, and a pattern no
+wider than that reason requires.** When a URL or domain is skipped
+because *this repo* self-references it, anchor the pattern to the exact
+self-referencing path(s) — never the bare domain — so an unrelated
+outbound link to the same domain can't ride along unchecked.
+
+## Line endings are the repo's problem, not core.autocrlf's
+
+Not yet an incident here, but the same latent risk the portfolio repo
+found and hardened against applies unchanged: every committed text file
+is LF, but on Windows Git only converts that to CRLF-on-checkout /
+LF-on-commit if `core.autocrlf` is set — and that setting lives in the
+machine's git config, not the repo. Checked directly on 2026-08-15, not
+assumed: this machine has `core.autocrlf=true` globally, and every
+tracked text file in this working tree (`assets/styles.css`, `index.html`,
+etc.) is CRLF on disk — which has worked cleanly so far only because this
+machine's config happens to convert it back to LF on commit. This repo
+has no `.gitattributes`, unlike the portfolio repo's `* text=auto eol=lf`
+(with true binaries — `.woff2`, `.webp`, `.ico` — marked `binary`
+explicitly). Clone this repo somewhere with a different `core.autocrlf`
+— a teammate's default, a different tool, a CI image — and nothing here
+would stop a CRLF checkout from turning into a same-content,
+every-line-"modified" diff on the next edit, destroying `git blame` on
+that file if committed.
+
+**If this repo ever gets a `.gitattributes` added, verify it's a pure
+hardening change before trusting it**: `git add --renormalize .`
+immediately after adding the file should stage zero content changes if
+every already-committed blob already matches what the new rules would
+produce — confirm that, don't assume it.
