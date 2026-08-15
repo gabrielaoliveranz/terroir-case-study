@@ -136,6 +136,14 @@ button:focus-visible {
   display: inline-block;
 }
 .button--primary { background: var(--accent); color: var(--bg-card); }
+/* The global a:hover rule below outranks this class on specificity alone
+   (0,1,1 vs 0,1,0), so without this, hover/active silently repainted this
+   button's text to var(--accent) — identical to its own background,
+   1:1 contrast, completely invisible. Confirmed live 2026-08-15; see
+   CLAUDE.md, "Contrast must hold in every interactive state". */
+.button--primary:hover,
+.button--primary:focus-visible,
+.button--primary:active { color: var(--bg-card); }
 .button--secondary {
   background: transparent;
   color: var(--text);
@@ -229,6 +237,13 @@ button:focus-visible {
 
 /* ---------- Findings (dark) ---------- */
 .findings { background: var(--bg-dark); color: var(--text-on-dark); padding: 88px 32px; }
+/* --accent-label reads fine on the light --bg elsewhere, but not against
+   this section's dark background — a lighter gold instead. Was a
+   hardcoded inline style="" on the one <p class="eyebrow"> here; moved
+   into the stylesheet since it isn't a data-driven value (see README.md,
+   "Running the checks", on why no-inline-style stays off only for
+   genuinely data-driven ones). */
+.findings .eyebrow { color: #D9A66B; }
 .findings__title {
   font-family: var(--font-heading);
   font-weight: 800;
