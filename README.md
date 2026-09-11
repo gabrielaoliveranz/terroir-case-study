@@ -1,5 +1,7 @@
 # Terroir — Case Study
 
+![Terroir case study page](assets/preview/hero.png)
+
 [![Checks](https://github.com/gabrielaoliveranz/terroir-case-study/actions/workflows/checks.yml/badge.svg)](https://github.com/gabrielaoliveranz/terroir-case-study/actions/workflows/checks.yml)
 
 Narrated case study for [Terroir](https://terroir.streamlit.app), a 
@@ -25,7 +27,8 @@ terroir-case-study/
 │   ├── script.js          # count-up + back-to-top only — not required for content
 │   ├── favicon.svg
 │   ├── fonts/              # self-hosted Archivo + Source Sans 3 (latin + latin-ext only)
-│   └── images/             # dashboard screenshot, Open Graph card
+│   ├── images/             # dashboard screenshot, Open Graph card
+│   └── preview/hero.png    # this README's cover image (the case study page itself)
 ├── scripts/
 │   ├── check-a11y.mjs           # runs axe-core against a local static server
 │   ├── check-overflow.mjs       # no horizontal overflow at 320/390/768px
