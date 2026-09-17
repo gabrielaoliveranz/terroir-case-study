@@ -34,11 +34,19 @@ terroir-case-study/
 │   ├── check-overflow.mjs       # no horizontal overflow at 320/390/768px
 │   ├── check-canonical-urls.mjs # canonical/og/twitter URLs agree
 │   └── lib/                     # shared local-server + matched-Chrome setup
+├── .github/workflows/checks.yml  # CI: runs npm run check on every push/PR
 ├── package.json            # dev-only tooling — see "Running the checks" below
+├── package-lock.json
 ├── .htmlvalidate.json
+├── .gitattributes         # LF normalisation — see CLAUDE.md, "Line endings..."
+├── .gitignore
 ├── CLAUDE.md              # working conventions for this repo
 └── LICENSE.md
 ```
+
+`review-screenshots/` (before/after visual QA captures) exists locally
+but is deliberately git-ignored — see `.gitignore` — so it never
+ships with the repo and isn't listed above.
 
 ## Local preview
 
