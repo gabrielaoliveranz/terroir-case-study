@@ -18,4 +18,4 @@ npm-debug.log*
 review-screenshots/
 
 # Backups from Claude-assisted edit sessions, not for git
-*.bak-preparceldedup
+*.bak-*
